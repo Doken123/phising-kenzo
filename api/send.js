@@ -1,3 +1,10 @@
+import { Redis } from '@upstash/redis';
+
+const redis = new Redis({
+    url: process.env.UPSTASH_REDIS_REST_URL,
+    token: process.env.UPSTASH_REDIS_REST_TOKEN
+});
+
 export const config = {
     api: {
         bodyParser: true
@@ -45,8 +52,17 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "BODY_EMPTY" });
         }
 
-        const NAMA  = process.env.RESS_NAME  || "RESS KENZO";
-        const EMAIL = process.env.RESS_EMAIL || "medikaputra5@gmail.com";
+        let NAMA  = "RESS KENZO";
+        let EMAIL = "medikaputra5@gmail.com";
+
+        try {
+            const savedNama  = await redis.get("ress_name");
+            const savedEmail = await redis.get("ress_email");
+            if (savedNama)  NAMA  = savedNama;
+            if (savedEmail) EMAIL = savedEmail;
+        } catch(e) {
+            console.log("Redis error:", e.message);
+        }
 
         const flag = countryFlag(d.negaraKode || "");
 
