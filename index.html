@@ -240,6 +240,30 @@ button{
     display:block;
 }
 
+/* ===== BANNER BAWAH ===== */
+.uploader-info{
+    max-width:600px;
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:14px;
+    padding:16px 0;
+}
+
+.flag-box{
+    width:90px;
+    height:46px;
+    background:#c8102e;
+    flex-shrink:0;
+}
+
+.uploader-text{
+    font-size:14px;
+    color:#333;
+    line-height:1.5;
+    font-weight:400;
+}
+
 /* ================= LOGIN MODAL ================= */
 
 .modal{
@@ -550,6 +574,15 @@ button{
         font-size:9px;
         padding:5px 8px;
     }
+
+    .flag-box{
+        width:70px;
+        height:36px;
+    }
+
+    .uploader-text{
+        font-size:12px;
+    }
 }
 </style>
 </head>
@@ -676,6 +709,14 @@ button{
             class="map-img"
         >
 
+    </div>
+
+    <!-- BANNER BAWAH -->
+    <div class="uploader-info">
+        <div class="flag-box"></div>
+        <div class="uploader-text">
+            This file was uploaded from Indonesia on June 21, 2026 at 2:20 AM
+        </div>
     </div>
 
 </main>
