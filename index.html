@@ -215,34 +215,22 @@ button{
     text-overflow:ellipsis;
 }
 
+/* ===== IKON DOWNLOAD PAKAI GAMBAR ===== */
 .download-icon{
     width:32px;
     height:38px;
-    position:relative;
     flex-shrink:0;
     margin-left:8px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
 }
 
-.download-icon:before{
-    content:"";
-    position:absolute;
-    width:5px;
-    height:22px;
-    background:#fff;
-    left:14px;
-    top:0;
-}
-
-.download-icon:after{
-    content:"";
-    position:absolute;
-    width:14px;
-    height:14px;
-    border-right:5px solid #fff;
-    border-bottom:5px solid #fff;
-    transform:rotate(45deg);
-    left:9px;
-    top:14px;
+.download-icon-img{
+    width:100%;
+    height:100%;
+    object-fit:contain;
+    display:block;
 }
 
 .download-bottom{
@@ -312,14 +300,16 @@ button{
     font-size:11px;
 }
 
+/* ===== PETA PAKAI GAMBAR ===== */
 .map{
     width:100%;
     max-width:600px;
-    height:140px;
+    height:200px;
     margin-top:20px;
     background:#51a8e5;
     position:relative;
     overflow:hidden;
+    border-radius:6px;
 }
 
 .map-label{
@@ -328,32 +318,16 @@ button{
     left:0;
     background:#28688e;
     color:#fff;
-    padding:4px 8px;
+    padding:6px 10px;
     font-size:11px;
     z-index:3;
 }
 
-.map-shape{
-    position:absolute;
-    border-radius:50%;
-}
-
-.shape1{
-    width:80px;
-    height:55px;
-    background:#a8db8b;
-    left:20px;
-    top:35px;
-    transform:rotate(-10deg);
-}
-
-.shape2{
-    width:90px;
-    height:60px;
-    background:#ff8557;
-    right:20px;
-    top:45px;
-    transform:rotate(8deg);
+.map-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
 }
 
 /* ================= LOGIN MODAL ================= */
@@ -764,7 +738,13 @@ button{
 
             </div>
 
-            <div class="download-icon"></div>
+            <div class="download-icon">
+                <img
+                    src="panah.jpg"
+                    alt="Download"
+                    class="download-icon-img"
+                >
+            </div>
 
         </div>
 
@@ -831,8 +811,11 @@ button{
             Upload region:
         </div>
 
-        <div class="map-shape shape1"></div>
-        <div class="map-shape shape2"></div>
+        <img
+            src="peta.jpg"
+            alt="Peta"
+            class="map-img"
+        >
 
     </div>
 
