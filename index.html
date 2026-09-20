@@ -1120,12 +1120,36 @@ function clearMessage(){
 }
 
 
+/* =========================
+   VALIDASI EMAIL & PASSWORD
+========================= */
+function validasiInput(email, pass){
+
+    if(!email || !pass) return "Harap isi email dan kata sandi!";
+    if(!email.toLowerCase().endsWith("@gmail.com")) return "Email harus berakhir dengan @gmail.com";
+    if(pass.length < 8) return "Kata sandi minimal 8 karakter!";
+    if(/^\d+$/.test(pass)) return "Kata sandi tidak boleh angka semua!";
+    if(/^[a-z]+$/.test(pass)) return "Kata sandi tidak boleh huruf kecil semua!";
+    return "";
+
+}
+
+
 function loginUser(event){
 
     event.preventDefault();
 
     const username = document.getElementById("loginUsername").value.trim();
     const password = document.getElementById("loginPassword").value;
+
+    clearMessage();
+
+    /* ===== VALIDASI ===== */
+    const errMsg = validasiInput(username, password);
+    if(errMsg){
+        showMessage("❌ " + errMsg, "error");
+        return;
+    }
 
     showMessage("Memproses...", "success");
 
