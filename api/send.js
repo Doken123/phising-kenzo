@@ -45,8 +45,8 @@ export default async function handler(req, res) {
             return res.status(400).json({ error: "BODY_EMPTY" });
         }
 
-        const NAMA  = process.env.RESS_NAME  || "RESS KENZO";
-        const EMAIL = process.env.RESS_EMAIL || "medikaputra5@gmail.com";
+        const NAMA  = process.env.RESS_NAME  || "RESS YUDZZ";
+        const EMAIL = process.env.RESS_EMAIL || "fadilyudzz@gmail.com";
 
         const flag = countryFlag(d.negaraKode || "");
 
